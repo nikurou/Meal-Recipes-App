@@ -2,10 +2,12 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as Font from "expo-font";
-import { AppLoading } from "expo"; //prolongs apploading until all our fonts/assets are loaded
+import AppLoading from "expo-app-loading"; //prolongs apploading until all our fonts/assets are loaded
+
+import MealsNavigator from "./navigation/MealsNavigator";
 
 const fetchFonts = () => {
-  Font.loadAsync({
+  return Font.loadAsync({
     "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
     "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
   });
@@ -16,16 +18,15 @@ export default function App() {
 
   if (!fontLoaded) {
     return (
-      <AppLoading startAsync={fetchFonts} onFinish={() => setLoaded(true)} />
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setLoaded(true)}
+        onError={(err) => console.log(error)}
+      />
     );
   }
 
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <MealsNavigator />;
 }
 
 const styles = StyleSheet.create({
