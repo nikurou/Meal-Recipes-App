@@ -4,9 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 const CategoryGridTile = (props) => {
   return (
     <TouchableOpacity onPress={props.onSelect} style={styles.gridItem}>
-      <View
-        style={{ ...styles.container, ...{ backgroundColor: props.color } }}
-      >
+      <View style={[styles.container, { backgroundColor: props.color }]}>
         <Text>{props.title}</Text>
       </View>
     </TouchableOpacity>
