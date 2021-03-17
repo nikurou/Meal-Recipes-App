@@ -11,6 +11,7 @@ import Colors from "../constants/Colors";
 import { Platform } from "react-native";
 import CategoriesScreen from "../screens/CategoriesScreen";
 import { Ionicons } from "@expo/vector-icons";
+import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
 const MealsNavigator = createStackNavigator(
   {
@@ -45,46 +46,51 @@ const MealsNavigator = createStackNavigator(
   }
 );
 
-//MealsFavTabNavigator has the MealsNavigator stack nested in it!
-//Therefore when we export createAppContainer, we should pass this as the param
-const MealsFavTabNavigator = createBottomTabNavigator(
-  {
-    Meals: {
-      screen: MealsNavigator,
-      navigationOptions: {
-        tabBarLabel: "Meals",
-        tabBarIcon: (tabInfo) => {
-          return (
-            <Ionicons
-              name="ios-restaurant"
-              size={25}
-              color={tabInfo.tintColor} //automatically grabbed color from activeTintColor
-            />
-          );
-        },
-      },
-    },
-    Favorites: {
-      screen: FavoritesScreen,
-      navigationOptions: {
-        tabBarLabel: "Favorites",
-        tabBarIcon: (tabInfo) => {
-          return (
-            <Ionicons
-              name="ios-star"
-              size={25}
-              color={tabInfo.tintColor} //automatically grabbed color from activeTintColor
-            />
-          );
-        },
+const tabScreenConfig = {
+  Meals: {
+    screen: MealsNavigator,
+    navigationOptions: {
+      tabBarLabel: "Meals",
+      tabBarIcon: (tabInfo) => {
+        return (
+          <Ionicons
+            name="ios-restaurant"
+            size={25}
+            color={tabInfo.tintColor} //automatically grabbed color from activeTintColor
+          />
+        );
       },
     },
   },
-  {
-    tabBarOptions: {
-      activeTintColor: Colors.accentColor,
+  Favorites: {
+    screen: FavoritesScreen,
+    navigationOptions: {
+      tabBarLabel: "Favorites",
+      tabBarIcon: (tabInfo) => {
+        return (
+          <Ionicons
+            name="ios-star"
+            size={25}
+            color={tabInfo.tintColor} //automatically grabbed color from activeTintColor
+          />
+        );
+      },
     },
-  }
-);
+  },
+};
+
+//MealsFavTabNavigator has the MealsNavigator stack nested in it!
+//Therefore when we export createAppContainer, we should pass this as the param
+const MealsFavTabNavigator =
+  Platform.OS === "android"
+    ? createMaterialBottomTabNavigator(tabScreenConfig, {
+        activeTintColor: Colors.accentColor,
+        shifting: true,
+      })
+    : createBottomTabNavigator(tabScreenConfig, {
+        tabBarOptions: {
+          activeTintColor: Colors.accentColor,
+        },
+      });
 
 export default createAppContainer(MealsFavTabNavigator);
