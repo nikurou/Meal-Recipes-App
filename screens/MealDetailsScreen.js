@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -6,9 +6,9 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 
 const MealDetailsScreen = (props) => {
-  const mealId = props.navigation.getParam("mealId");
+  const mealId = props.navigation.getParam("mealId"); //fetch mealID
+  const selectedMeal = MEALS.find((meal) => meal.id === mealId); //find the meal with the ID
 
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
   return (
     <View style={styles.screen}>
       <Text>{selectedMeal.title}</Text>
@@ -27,15 +27,16 @@ const MealDetailsScreen = (props) => {
 MealDetailsScreen.navigationOptions = (navigationData) => {
   const mealId = navigationData.navigation.getParam("mealId");
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+
   return {
     headerTitle: selectedMeal.title,
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Favorite"
-          iconName="ios-star-outline"
+          iconName={true ? "ios-star" : "ios-star-outline"}
           onPress={() => {
-            console.log("favorited");
+            console.log("Favorited");
           }}
         />
       </HeaderButtons>
