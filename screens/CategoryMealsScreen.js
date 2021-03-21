@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, Platform } from "react-native";
+
 import { CATEGORIES, MEALS } from "../data/dummy-data";
-import Colors from "../constants/Colors";
-import MealItem from "../components/MealItem";
+
+import MealList from "../components/MealList";
 
 const CategoryMealsScreen = (props) => {
   const categoryId = props.navigation.getParam("categoryId");
@@ -11,31 +11,9 @@ const CategoryMealsScreen = (props) => {
     (meal) => meal.categoryIds.indexOf(categoryId) >= 0
   );
 
-  const renderMealItem = (itemData) => {
-    return (
-      <MealItem
-        itemData={itemData}
-        image={itemData.item.imageUrl}
-        onSelectMeal={(meal) => {
-          props.navigation.navigate({
-            routeName: "MealDetail",
-            params: { mealId: itemData.item.id },
-          });
-        }}
-      ></MealItem>
-    );
-  };
-
-  return (
-    <View style={styles.screen}>
-      <FlatList
-        data={displayedMeals}
-        keyExtractor={(item, index) => item.id}
-        renderItem={renderMealItem}
-        style={{ width: "100%" }}
-      />
-    </View>
-  );
+  // Return list of mealItems
+  // Navigation property must be passed down.
+  return <MealList listData={displayedMeals} navigation={props.navigation} />;
 };
 
 //Header Title and Styling that is dynamic based on Changing Data
@@ -47,14 +25,5 @@ CategoryMealsScreen.navigationOptions = (navigationData) => {
     headerTitle: selectedCategory.title,
   };
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 15,
-  },
-});
 
 export default CategoryMealsScreen;

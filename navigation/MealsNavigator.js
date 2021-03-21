@@ -13,6 +13,19 @@ import CategoriesScreen from "../screens/CategoriesScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 
+const defaultStackNavOptions = {
+  headerStyle: {
+    backgroundColor:
+      Platform.OS === "android" || Platform.OS === "web"
+        ? Colors.primaryColor
+        : "",
+  },
+  headerTintColor:
+    Platform.OS === "android" || Platform.OS === "web"
+      ? "#ffff"
+      : Colors.primaryColor,
+};
+
 const MealsNavigator = createStackNavigator(
   {
     Categories: {
@@ -31,16 +44,21 @@ const MealsNavigator = createStackNavigator(
     initialRouteName: "Categories",
     //Default header styling
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor:
-          Platform.OS === "android" || Platform.OS === "web"
-            ? Colors.primaryColor
-            : "",
-      },
-      headerTintColor:
-        Platform.OS === "android" || Platform.OS === "web"
-          ? "#ffff"
-          : Colors.primaryColor,
+      defaultStackNavOptions,
+    },
+    mode: "modal", //depending on modal or card, you get different animations when switching screens on IOS
+  }
+);
+
+//Favorite Tabs Screen Stack
+const FavNavigator = createStackNavigator(
+  {
+    Favorites: { screen: FavoritesScreen },
+    MealDetail: { screen: MealDetailsScreen },
+  },
+  {
+    defaultNavigationOptions: {
+      defaultStackNavOptions,
     },
     mode: "modal", //depending on modal or card, you get different animations when switching screens on IOS
   }
@@ -48,7 +66,7 @@ const MealsNavigator = createStackNavigator(
 
 const tabScreenConfig = {
   Meals: {
-    screen: MealsNavigator,
+    screen: MealsNavigator, //We can use screen stacks as screens.
     navigationOptions: {
       tabBarLabel: "Meals",
       tabBarIcon: (tabInfo) => {
@@ -60,10 +78,11 @@ const tabScreenConfig = {
           />
         );
       },
+      tabBarColor: Colors.primaryColor,
     },
   },
   Favorites: {
-    screen: FavoritesScreen,
+    screen: FavNavigator, //We can use screen stacks as screens.
     navigationOptions: {
       tabBarLabel: "Favorites",
       tabBarIcon: (tabInfo) => {
@@ -75,6 +94,7 @@ const tabScreenConfig = {
           />
         );
       },
+      tabBarColor: Colors.accentColor,
     },
   },
 };
@@ -84,8 +104,11 @@ const tabScreenConfig = {
 const MealsFavTabNavigator =
   Platform.OS === "android"
     ? createMaterialBottomTabNavigator(tabScreenConfig, {
-        activeTintColor: Colors.accentColor,
+        activeTintColor: "white",
         shifting: true,
+        barStyle: {
+          backgroundColor: Colors.primaryColor,
+        },
       })
     : createBottomTabNavigator(tabScreenConfig, {
         tabBarOptions: {
