@@ -2,6 +2,7 @@ import React from "react";
 import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
+import { createDrawerNavigator } from "react-navigation-drawer";
 import CatogoriesScreen from "../screens/CategoriesScreen";
 import CategoryMealsScreen from "../screens/CategoryMealsScreen";
 import FavoritesScreen from "../screens/FavoritesScreen";
@@ -33,7 +34,7 @@ const MealsNavigator = createStackNavigator(
       navigationOptions: { headerTitle: "Meal Categories" },
     },
     CategoryMeals: {
-      headerTitle: "Meal Categories!!",
+      headerTitle: "Meal Categories",
       screen: CategoryMealsScreen,
     },
     MealDetail: MealDetailsScreen,
@@ -116,4 +117,12 @@ const MealsFavTabNavigator =
         },
       });
 
-export default createAppContainer(MealsFavTabNavigator);
+const FilterNavigator = createStackNavigator({ Filters: FiltersScreen });
+
+// side Drawer
+const MainNavigator = createDrawerNavigator({
+  MealsFavs: MealsFavTabNavigator,
+  Filters: FilterNavigator,
+});
+
+export default createAppContainer(MainNavigator);
