@@ -9,7 +9,7 @@ import FavoritesScreen from "../screens/FavoritesScreen";
 import FiltersScreen from "../screens/FiltersScreen";
 import MealDetailsScreen from "../screens/MealDetailsScreen";
 import Colors from "../constants/Colors";
-import { Platform } from "react-native";
+import { Platform, Text } from "react-native";
 import CategoriesScreen from "../screens/CategoriesScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
@@ -20,6 +20,12 @@ const defaultStackNavOptions = {
       Platform.OS === "android" || Platform.OS === "web"
         ? Colors.primaryColor
         : "",
+  },
+  headerTitleStyle: {
+    fontFamily: "open-sans-bold",
+  },
+  headerBackTitleStyle: {
+    fontFamily: "open-sans",
   },
   headerTintColor:
     Platform.OS === "android" || Platform.OS === "web"
@@ -96,9 +102,9 @@ const tabScreenConfig = {
   },
 };
 
+// The BOTTOM NAVIGATOR
 //MealsFavTabNavigator has the MealsNavigator stack nested in it!
 //Therefore when we export createAppContainer, we should pass this as the param
-//This is the bottom Meals/Favorite Thing
 const MealsFavTabNavigator =
   Platform.OS === "android"
     ? createMaterialBottomTabNavigator(tabScreenConfig, {
@@ -110,6 +116,9 @@ const MealsFavTabNavigator =
       })
     : createBottomTabNavigator(tabScreenConfig, {
         tabBarOptions: {
+          labelStyle: {
+            fontFamily: "open-sans-bold",
+          },
           activeTintColor: Colors.accentColor,
         },
       });
