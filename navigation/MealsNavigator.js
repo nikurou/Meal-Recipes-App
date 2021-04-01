@@ -44,9 +44,7 @@ const MealsNavigator = createStackNavigator(
   {
     initialRouteName: "Categories",
     //Default header styling
-    defaultNavigationOptions: {
-      defaultStackNavOptions,
-    },
+    defaultNavigationOptions: defaultStackNavOptions,
     mode: "modal", //depending on modal or card, you get different animations when switching screens on IOS
   }
 );
@@ -58,13 +56,11 @@ const FavNavigator = createStackNavigator(
     MealDetail: { screen: MealDetailsScreen },
   },
   {
-    defaultNavigationOptions: {
-      defaultStackNavOptions,
-    },
-    mode: "modal", //depending on modal or card, you get different animations when switching screens on IOS
+    defaultNavigationOptions: defaultStackNavOptions,
   }
 );
 
+//Bottom Tab Navigator
 const tabScreenConfig = {
   Meals: {
     screen: MealsNavigator, //We can use screen stacks as screens.
@@ -102,6 +98,7 @@ const tabScreenConfig = {
 
 //MealsFavTabNavigator has the MealsNavigator stack nested in it!
 //Therefore when we export createAppContainer, we should pass this as the param
+//This is the bottom Meals/Favorite Thing
 const MealsFavTabNavigator =
   Platform.OS === "android"
     ? createMaterialBottomTabNavigator(tabScreenConfig, {
@@ -117,12 +114,47 @@ const MealsFavTabNavigator =
         },
       });
 
-const FilterNavigator = createStackNavigator({ Filters: FiltersScreen });
+const FilterNavigator = createStackNavigator(
+  { Filters: FiltersScreen },
+  {
+    navigationOptions: {
+      drawerLabel: "Filters",
+      drawerIcon: (
+        <Ionicons
+          name="ios-star"
+          size={25}
+          color={Colors.accentColor} //automatically grabbed color from activeTintColor
+        />
+      ),
+    },
+    defaultNavigationOptions: defaultStackNavOptions,
+  }
+);
 
 // side Drawer
-const MainNavigator = createDrawerNavigator({
-  MealsFavs: MealsFavTabNavigator,
-  Filters: FilterNavigator,
-});
+const MainNavigator = createDrawerNavigator(
+  {
+    MealsFavs: {
+      screen: MealsFavTabNavigator,
+      navigationOptions: {
+        drawerLabel: "Meals",
+        drawerIcon: (
+          <Ionicons
+            name="ios-restaurant"
+            size={25}
+            color={Colors.accentColor} //automatically grabbed color from activeTintColor
+          />
+        ),
+      },
+    },
+    Filters: FilterNavigator,
+  },
+  {
+    contentOptions: {
+      activeTintColor: Colors.accentColor,
+      labelStyle: { fontFamily: "open-sans-bold" },
+    },
+  }
+);
 
 export default createAppContainer(MainNavigator);
