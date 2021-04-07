@@ -1,24 +1,42 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { MEALS } from "../data/dummy-data";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-
 import HeaderButton from "../components/HeaderButton";
+import DefaultText from "../components/DefaultText";
 
 const MealDetailsScreen = (props) => {
   const mealId = props.navigation.getParam("mealId"); //fetch mealID
   const selectedMeal = MEALS.find((meal) => meal.id === mealId); //find the meal with the ID
 
   return (
-    <View style={styles.screen}>
-      <Text>{selectedMeal.title}</Text>
-      <Button
-        title="Go back to Categories"
-        onPress={() => {
-          props.navigation.popToTop();
-        }}
-      />
-    </View>
+    <ScrollView>
+      <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
+      <View style={[styles.mealRow, styles.mealDetail]}>
+        <DefaultText>{selectedMeal.duration}m</DefaultText>
+        <DefaultText>{selectedMeal.complexity.toUpperCase()}</DefaultText>
+        <DefaultText>{selectedMeal.affordability.toUpperCase()}</DefaultText>
+      </View>
+      <Text style={styles.title}>Ingredients</Text>
+
+      {/*List of Ingredients*/}
+      {selectedMeal.ingredients.map((ingredient) => (
+        <Text>{ingredient}</Text>
+      ))}
+
+      <Text style={styles.title}>Steps</Text>
+      {/*List of Steps*/}
+      {selectedMeal.steps.map((step) => (
+        <Text>{step}</Text>
+      ))}
+    </ScrollView>
   );
 };
 
@@ -49,6 +67,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  mealRow: {
+    flexDirection: "row",
+  },
+  mealDetail: {
+    paddingHorizontal: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 15,
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 24,
+    textAlign: "center",
+  },
+  image: {
+    width: "100%",
+    height: 200,
   },
 });
 
