@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import MealItem from "./MealItem";
 
 const MealList = (props) => {
+  //Hold the list of all the favorite meals as a dictionary.
+  const [favorites, setFavorites] = useState(new Map());
+
+  const handleFavorite = (mealObject) => {
+    //If it's already in the list of favorites, that means the user is unfavoriting, so delete the entry.
+    if (favorites.has(mealObject.title))
+      setFavorites(favorites.delete(mealObject.title));
+    // else add it as true
+    else setFavorites(favorites.set(mealObject.title, { status: true }));
+  };
+
   const renderMealItem = (itemData) => {
     return (
       <MealItem
@@ -11,7 +22,11 @@ const MealList = (props) => {
         onSelectMeal={(meal) => {
           props.navigation.navigate({
             routeName: "MealDetail",
-            params: { mealId: itemData.item.id },
+            params: {
+              mealId: itemData.item.id,
+              favoriteDictionary: favorites,
+              handleFavorite: handleFavorite,
+            },
           });
         }}
       ></MealItem>

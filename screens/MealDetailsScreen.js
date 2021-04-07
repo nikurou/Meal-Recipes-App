@@ -25,6 +25,7 @@ const ListItem = (props) => {
 const MealDetailsScreen = (props) => {
   const mealId = props.navigation.getParam("mealId"); //fetch mealID
   const selectedMeal = MEALS.find((meal) => meal.id === mealId); //find the meal with the ID
+  const [favorited, setFavorited] = useState(false);
 
   return (
     <ScrollView>
@@ -55,6 +56,10 @@ const MealDetailsScreen = (props) => {
 MealDetailsScreen.navigationOptions = (navigationData) => {
   const mealId = navigationData.navigation.getParam("mealId");
   const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const favoriteDictionary = navigationData.navigation.getParam(
+    "favoriteDictionary"
+  );
+  const handleFavorite = navigationData.navigation.getParam("handleFavorite");
 
   return {
     headerTitle: selectedMeal.title,
@@ -65,6 +70,8 @@ MealDetailsScreen.navigationOptions = (navigationData) => {
           iconName={true ? "ios-star" : "ios-star-outline"}
           onPress={() => {
             console.log("Favorited");
+            handleFavorite(selectedMeal);
+            console.log(favoriteDictionary);
           }}
         />
       </HeaderButtons>

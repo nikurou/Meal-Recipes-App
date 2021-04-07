@@ -33,6 +33,7 @@ const defaultStackNavOptions = {
       : Colors.primaryColor,
 };
 
+//Route Names: {object}
 const MealsNavigator = createStackNavigator(
   {
     Categories: {
