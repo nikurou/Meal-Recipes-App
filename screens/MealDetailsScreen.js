@@ -12,6 +12,16 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 import DefaultText from "../components/DefaultText";
 
+// Component used to render the individual steps and ingredients
+// Only used here so I just wrote it inside here.
+const ListItem = (props) => {
+  return (
+    <View style={styles.listItem}>
+      <DefaultText> {props.children}</DefaultText>
+    </View>
+  );
+};
+
 const MealDetailsScreen = (props) => {
   const mealId = props.navigation.getParam("mealId"); //fetch mealID
   const selectedMeal = MEALS.find((meal) => meal.id === mealId); //find the meal with the ID
@@ -28,13 +38,13 @@ const MealDetailsScreen = (props) => {
 
       {/*List of Ingredients*/}
       {selectedMeal.ingredients.map((ingredient) => (
-        <Text>{ingredient}</Text>
+        <ListItem key={ingredient}>{ingredient}</ListItem>
       ))}
 
       <Text style={styles.title}>Steps</Text>
       {/*List of Steps*/}
       {selectedMeal.steps.map((step) => (
-        <Text>{step}</Text>
+        <ListItem key={step}>{step}</ListItem>
       ))}
     </ScrollView>
   );
@@ -85,6 +95,13 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 200,
+  },
+  listItem: {
+    borderWidth: 1,
+    marginVertical: 10,
+    marginHorizontal: 20,
+    borderColor: "#ccc",
+    padding: 10,
   },
 });
 
