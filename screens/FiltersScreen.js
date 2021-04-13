@@ -36,12 +36,12 @@ const FiltersScreen = (props) => {
     };
 
     console.log(appliedFilters);
-  }, [isGlutenFree, isVegan, isLactoseFree, isVegetarian]);
+  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
 
   //On any re-render, this will trigger, SAVING the current state of the filters.
   useEffect(() => {
     navigation.setParams({ save: saveFilters });
-  }, [saveFilters]);
+  }, [saveFilters]); //Specify to only apply when saveFilters changes because setParams() itself changes prop.
 
   return (
     <View style={styles.screen}>
@@ -90,7 +90,7 @@ FiltersScreen.navigationOptions = (navData) => {
           title="Save"
           iconName="ios-save"
           onPress={() => {
-            navData.navigation.getParam("save")();
+            navData.navigation.getParam("save")(); //we set this parameter up earlier to = the saved filter dictionary
           }}
         />
       </HeaderButtons>
