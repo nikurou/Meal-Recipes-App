@@ -10,6 +10,13 @@ import { Provider } from "react-redux";
 import MealsNavigator from "./navigation/MealsNavigator";
 import mealsReducer from "./store/reducers/meals";
 
+//Due to Expo SDK 40 having conflicts with React Navigation's use of Constants, I'm forcing ignore on:
+//Your project is accessing the following APIs from a deprecated global rather than a module import: Constants (expo-constants).
+//The global "__expo" and "Expo" objects will be removed in SDK 41. Learn more about how to fix this warning: https://expo.fyi/deprecated-globals
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+
 enableScreens();
 
 // If we had multiple reducers to manage mulitple things, we could use this.
