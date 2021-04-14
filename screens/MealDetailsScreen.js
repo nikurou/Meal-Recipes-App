@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   Button,
@@ -7,10 +7,10 @@ import {
   Text,
   View,
 } from "react-native";
-import { MEALS } from "../data/dummy-data";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 import DefaultText from "../components/DefaultText";
+import { useSelector } from "react-redux";
 
 // Component used to render the individual steps and ingredients
 // Only used here so I just wrote it inside here.
@@ -23,9 +23,15 @@ const ListItem = (props) => {
 };
 
 const MealDetailsScreen = (props) => {
+  const availableMeals = useSelector((state) => state.meals.meals);
   const mealId = props.navigation.getParam("mealId"); //fetch mealID
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId); //find the meal with the ID
-  const [favorited, setFavorited] = useState(false);
+
+  const selectedMeal = availableMeals.find((meal) => meal.id === mealId); //find the meal with the ID
+
+  //Since this changes props and triggers a re-render, we'd get an infinite loop, so we wrap it with useEffect
+  // useEffect(() => {
+  //   props.navigation.setParams({ mealTitle: selectedMeal.title });
+  // }, [selectedMeal]);
 
   return (
     <ScrollView>
@@ -55,14 +61,13 @@ const MealDetailsScreen = (props) => {
 // RN automatically passes in navigationData you use navigationOptions as a function.
 MealDetailsScreen.navigationOptions = (navigationData) => {
   const mealId = navigationData.navigation.getParam("mealId");
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
-  const favoriteDictionary = navigationData.navigation.getParam(
-    "favoriteDictionary"
-  );
-  const handleFavorite = navigationData.navigation.getParam("handleFavorite");
+  //const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+
+  //This parameter is set in mealList.js component itself.
+  const mealTitle = navigationData.navigation.getParam("mealTitle");
 
   return {
-    headerTitle: selectedMeal.title,
+    headerTitle: mealTitle,
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
@@ -70,8 +75,6 @@ MealDetailsScreen.navigationOptions = (navigationData) => {
           iconName={true ? "ios-star" : "ios-star-outline"}
           onPress={() => {
             console.log("Favorited");
-            handleFavorite(selectedMeal);
-            console.log(favoriteDictionary);
           }}
         />
       </HeaderButtons>
