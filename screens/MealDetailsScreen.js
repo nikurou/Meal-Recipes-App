@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ScrollView,
   Button,
@@ -10,7 +10,8 @@ import {
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
 import DefaultText from "../components/DefaultText";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleFavorite } from "../store/actions/meals";
 
 // Component used to render the individual steps and ingredients
 // Only used here so I just wrote it inside here.
@@ -25,13 +26,27 @@ const ListItem = (props) => {
 const MealDetailsScreen = (props) => {
   const availableMeals = useSelector((state) => state.meals.meals);
   const mealId = props.navigation.getParam("mealId"); //fetch mealID
-
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId); //find the meal with the ID
 
+  const currentMealisFavorited = useSelector((state) =>
+    state.meals.favoriteMeals.some((meal) => meal.id === mealId)
+  );
+
+  const dispatch = useDispatch();
+  //use callback helps prevent infi loop
+  const toggleFavoriteHandler = useCallback(() => {
+    dispatch(toggleFavorite(mealId));
+  }, [dispatch, mealId]);
+
   //Since this changes props and triggers a re-render, we'd get an infinite loop, so we wrap it with useEffect
-  // useEffect(() => {
-  //   props.navigation.setParams({ mealTitle: selectedMeal.title });
-  // }, [selectedMeal]);
+  useEffect(() => {
+    //props.navigation.setParams({ mealTitle: selectedMeal.title });
+    props.navigation.setParams({ toggleFav: toggleFavoriteHandler });
+  }, [toggleFavoriteHandler]);
+
+  useEffect(() => {
+    props.navigation.setParams({ isFav: currentMealisFavorited });
+  }, [currentMealisFavorited]);
 
   return (
     <ScrollView>
@@ -62,9 +77,14 @@ const MealDetailsScreen = (props) => {
 MealDetailsScreen.navigationOptions = (navigationData) => {
   const mealId = navigationData.navigation.getParam("mealId");
   //const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+  const toggleFavorite = navigationData.navigation.getParam("toggleFav");
 
   //This parameter is set in mealList.js component itself.
   const mealTitle = navigationData.navigation.getParam("mealTitle");
+
+  //MealList.js sets this as well, though its passed from above too.
+  //Although redundant, this is so it instantly renders on load and still toggles state.
+  const isFavorite = navigationData.navigation.getParam("isFav");
 
   return {
     headerTitle: mealTitle,
@@ -72,10 +92,8 @@ MealDetailsScreen.navigationOptions = (navigationData) => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Favorite"
-          iconName={true ? "ios-star" : "ios-star-outline"}
-          onPress={() => {
-            console.log("Favorited");
-          }}
+          iconName={isFavorite ? "ios-star" : "ios-star-outline"}
+          onPress={toggleFavorite}
         />
       </HeaderButtons>
     ),
