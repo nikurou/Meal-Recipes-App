@@ -32,6 +32,7 @@ const MealDetailsScreen = (props) => {
     state.meals.favoriteMeals.some((meal) => meal.id === mealId)
   );
 
+  //This is how we CALL an action from reducer
   const dispatch = useDispatch();
   //use callback helps prevent infi loop
   const toggleFavoriteHandler = useCallback(() => {
