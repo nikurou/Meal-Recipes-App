@@ -23,7 +23,7 @@ Favoriting Meals:
 
 <p align="center">
   <img src= "FavoritingRecipes.gif" alt = "animated")
-
+</p>
 
 Filtering Meals:
 
