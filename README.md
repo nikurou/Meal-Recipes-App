@@ -15,16 +15,22 @@ A published Expo Build can be demo'd here: https://expo.io/@nikurou/projects/rec
 
 Finding Meals:
 
-![](FindindRecipes.gif)
-
+<p align="center">
+  <img src= "FindindRecipes.gif" alt = "animated")
+</p>
 
 Favoriting Meals:
 
-![](FavoritingRecipes.gif)
+<p align="center">
+  <img src= "FavoritingRecipes.gif" alt = "animated")
+
 
 Filtering Meals:
 
-![](FilteringRecipes.gif)
+<p align="center">
+  <img src= "FilteringRecipes.gif" alt = "animated")
+</p>
+
 
 Source:
 Part of the coursework from Udemy's "React Native- The Practical Guide 2021 Edition" by Maximilian Schwarzmüller
