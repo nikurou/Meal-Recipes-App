@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorite } from "../store/actions/meals";
 
 // Component used to render the individual steps and ingredients
-// Only used here so I just wrote it inside here.
 const ListItem = (props) => {
   return (
     <View style={styles.listItem}>
