@@ -15,11 +15,16 @@ A published Expo Build can be demo'd here: https://expo.io/@nikurou/projects/rec
 
 Finding Meals:
 
+![](FindindRecipes.gif)
+
 
 Favoriting Meals:
 
+![](FavoritingRecipes.gif)
 
 Filtering Meals:
+
+![](FilteringRecipes.gif)
 
 Source:
 Part of the coursework from Udemy's "React Native- The Practical Guide 2021 Edition" by Maximilian Schwarzmüller
