@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "meals-app",
-    "slug": "meals-app",
+    "name": "Recipe Meals App",
+    "slug": "recipe-meals-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "An mobile application for iOS/Android devices that allows the user to search for and find delicious recipes to make! Made from following a React Native Course where the objective of this application was to learn React Navigation, passing of data between screens, and Redux.\n\nFeatures include:\nFind recipes based on categories\nFiltering recipes based on criteria such as lactose free, vegan, etc.\nSaving recipes to a favorites list to be viewed in a separate tab\n\nSource: Part of the coursework from Udemy's \"React Native- The Practical Guide 2021 Edition\" by Maximilian Schwarzmüller",
+    "githubUrl": "https://github.com/nikurou/meals-app"
   }
 }
