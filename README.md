@@ -5,11 +5,21 @@ An application available on iOS/Android that allows the user to search for and f
 A published Expo Build can be demo'd here: https://expo.io/@nikurou/projects/recipe-meals-app
 - Must have the Expo app on your iOS/Android phone if demo'd via smartphone.
 
-Features include:
+# Features include:
 
 - Find recipes based on categories
 - Filtering recipes based on criteria such as lactose free, vegan, etc.
 - Saving recipes to a favorites list to be viewed in a seperate tab
+
+# Examples:
+
+Finding Meals:
+
+
+Favoriting Meals:
+
+
+Filtering Meals:
 
 Source:
 Part of the coursework from Udemy's "React Native- The Practical Guide 2021 Edition" by Maximilian Schwarzmüller
