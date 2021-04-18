@@ -31,25 +31,25 @@ const mealsReducer = (state = initialState, action) => {
     case SET_FILTERS:
       const appliedFilters = action.filters; //comes from meals.js under actions folder
       const updatedFilteredMeals = state.meals.filter((meal) => {
-        if (appliedFilters.glutenFree && !meal.isGlutenFree) {
-          return false;
+        if (appliedFilters.glutenFree && meal.isGlutenFree) {
+          return true;
         }
-        if (appliedFilters.lactoseFree && !meal.lactoseFree) {
-          return false;
+        if (appliedFilters.lactoseFree && meal.isLactoseFree) {
+          return true;
         }
-        if (appliedFilters.vegan && !meal.vegan) {
-          return false;
+        if (appliedFilters.vegan && meal.isVegan) {
+          return true;
         }
-        if (appliedFilters.isVegetarian && !meal.isVegetarian) {
-          return false;
+        if (appliedFilters.vegetarian && meal.isVegetarian) {
+          return true;
         }
-        return true;
+        return false;
       });
+
       return { ...state, filteredMeals: updatedFilteredMeals };
     default:
       return state;
   }
-  return state;
 };
 
 export default mealsReducer;
